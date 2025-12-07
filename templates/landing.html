@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to SleepWell</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        :root {
+            --bg-dark: #0d1a26;
+            --bg-card: #172a3a;
+            --text-light: #e0e0e0;
+            --text-secondary: #a0b0c0;
+            --accent-green: #2ecc71;
+            --accent-blue: #3498db;
+            --border-color: #2a4157;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            margin: 0;
+            padding: 2rem;
+            background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfSx9FNM5pHf_KFt1DZWGbhGS30bAb351ZtQ&s');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: rgba(13, 26, 38, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: auto;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1rem;
+        }
+        .logo { font-size: 1.5rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem; }
+        .logo i { color: var(--accent-blue); }
+        main { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: center; }
+        .card { background-color: var(--bg-card); border-radius: 16px; padding: 1.5rem; border: 1px solid var(--border-color); }
+        .card h2 { margin-top: 0; font-size: 1.25rem; color: var(--text-light); border-bottom: 1px solid var(--border-color); padding-bottom: 1rem; margin-bottom: 1.5rem; }
+        .welcome-text h1 { font-size: 2.5rem; font-weight: 700; color: #fff; margin-bottom: 1rem; }
+        .welcome-text p { font-size: 1.1rem; color: whitesmoke; line-height: 1.6; }
+        .suggestion-item { display: flex; align-items: center; gap: 1rem; padding: 0.75rem 0; }
+        .suggestion-item i { font-size: 1.2rem; color: var(--accent-blue); width: 25px; text-align: center; }
+        .cta-button { display: inline-block; background-color: var(--accent-blue); color: #fff; font-size: 1.1rem; font-weight: 600; border: none; padding: 1rem 2rem; border-radius: 8px; cursor: pointer; text-decoration: none; transition: background-color 0.3s ease; margin-top: 2rem; }
+        .cta-button:hover { background-color: #2980b9; }
+
+        @media (max-width: 900px) {
+            main { grid-template-columns: 1fr; }
+            .welcome-text h1 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div class="logo"><i class="fa-solid fa-moon"></i><span>SleepWell</span></div>
+    </header>
+
+    <main>
+        <section class="welcome-text">
+            <h1>Understand Your Sleep Better</h1>
+            <p>Welcome to SleepWell, your personal guide to better rest. Our tool analyzes your lifestyle factors to predict sleep quality and offers personalized, actionable suggestions to help you achieve a more restful night.</p>
+            
+            <div class="suggestions-list">
+                  <div class="suggestion-item"><i class="fa-solid fa-check"></i><span>Analyze key lifestyle and sleep factors.</span></div>
+                  <div class="suggestion-item"><i class="fa-solid fa-check"></i><span>Receive an instant sleep quality assessment.</span></div>
+                  <div class="suggestion-item"><i class="fa-solid fa-check"></i><span>Get personalized tips to improve your sleep hygiene.</span></div>
+            </div>
+
+            <a href="/predict" class="cta-button">Predict Your Sleep Quality <i class="fa-solid fa-arrow-right"></i></a>
+        </section>
+
+        <section class="charts-column">
+            <div class="card">
+                <h2>Key Sleep Factors Overview</h2>
+                <canvas id="factorsChart"></canvas>
+            </div>
+        </section>
+    </main>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const factorsCtx = document.getElementById('factorsChart');
+    if (factorsCtx) {
+        new Chart(factorsCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Sleep Duration', 'Awakenings', 'Deep Sleep %', 'Caffeine', 'Alcohol'],
+                datasets: [{
+                    label: 'Impact on Sleep Quality',
+                    data: [90, 85, 80, 70, 65], 
+                    backgroundColor: [
+                        'rgba(52, 152, 219, 0.6)',
+                        'rgba(243, 156, 18, 0.6)',
+                        'rgba(46, 204, 113, 0.6)',
+                        'rgba(155, 89, 182, 0.6)',
+                        'rgba(231, 76, 60, 0.6)'
+                    ],
+                    borderColor: [ '#3498db', '#f39c12', '#2ecc71', '#9b59b6', '#e74c3c'],
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        grid: { color: 'rgba(255, 255, 255, 0.1)' },
+                        ticks: { color: '#FFFFFF' }
+                    },
+                    y: {
+                        grid: { display: false },
+                        ticks: { color: '#FFFFFF', font: { size: 14 } } 
+                    }
+                },
+                plugins: {
+                    legend: { display: false }
+                }
+            }
+        });
+    }
+});
+</script>
+
+</body>
+</html>

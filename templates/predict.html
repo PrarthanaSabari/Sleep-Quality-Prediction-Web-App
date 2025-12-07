@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SleepWell - Sleep Quality Prediction</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
+
+    <style>
+        :root {
+            --bg-dark: #0d1a26;
+            --bg-card: #172a3a;
+            --text-light: #e0e0e0;
+            --text-secondary: #a0b0c0;
+            --accent-blue: #3498db;
+            --quality-good: #2ecc71;
+            --quality-avg: #f39c12;
+            --quality-poor: #e74c3c;
+            --border-color: #2a4157;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-light);
+            margin: 0;
+            padding: 2rem;
+            background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfSx9FNM5pHf_KFt1DZWGbhGS30bAb351ZtQ&s');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+        .container {
+            background-color: rgba(13, 26, 38, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: auto;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .logo { font-size: 1.5rem; font-weight: 700; display: flex; align-items: center; gap: 0.5rem; }
+        .logo i { color: var(--accent-blue); }
+        main { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+        .card { background-color: var(--bg-card); border-radius: 16px; padding: 1.5rem; border: 1px solid var(--border-color); }
+        .card h2 { margin-top: 0; font-size: 1.25rem; color: var(--text-light); border-bottom: 1px solid var(--border-color); padding-bottom: 1rem; margin-bottom: 1.5rem; }
+        .gauge-container { position: relative; width: 100%; max-width: 280px; margin: 1rem auto; }
+        .suggestions-list { list-style: none; padding: 0; margin: 0; }
+        
+        .suggestion-item { 
+            display: flex; 
+            align-items: center; 
+            gap: 1rem; 
+            padding: 1rem; 
+            border-radius: 12px; 
+            margin-bottom: 1rem; 
+            background-color: rgba(13, 26, 38, 0.7);
+            border: 1px solid var(--border-color);
+            border-left-width: 5px;
+            transition: all 0.3s ease;
+        }
+        .suggestion-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        .suggestion-item i { font-size: 1.5rem; width: 30px; text-align: center; }
+        
+        .suggestion-item.critical { border-left-color: var(--quality-poor); }
+        .suggestion-item.critical i { color: var(--quality-poor); }
+
+        .suggestion-item.warning { border-left-color: var(--quality-avg); }
+        .suggestion-item.warning i { color: var(--quality-avg); }
+        
+        .suggestion-item.improvement { border-left-color: var(--accent-blue); }
+        .suggestion-item.improvement i { color: var(--accent-blue); }
+
+        .suggestion-item.positive { border-left-color: var(--quality-good); }
+        .suggestion-item.positive i { color: var(--quality-good); }
+
+        .placeholder { text-align: center; padding: 3rem 1rem; color: var(--text-secondary); border: 2px dashed var(--border-color); border-radius: 16px; }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .form-group { display: flex; flex-direction: column; }
+        .form-label { font-size: 0.9rem; margin-bottom: 0.5rem; color: var(--text-secondary); }
+        .form-control { background-color: var(--bg-dark); border: 1px solid var(--border-color); border-radius: 8px; padding: 0.75rem; color: var(--text-light); font-size: 1rem; width: 100%; box-sizing: border-box; }
+        .form-control:focus { outline: none; border-color: var(--accent-blue); box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2); }
+        .submit-btn { grid-column: 1 / -1; background-color: var(--accent-blue); color: #fff; font-size: 1rem; font-weight: 600; border: none; padding: 0.9rem; border-radius: 8px; cursor: pointer; transition: background-color 0.3s ease; margin-top: 1rem; }
+        .submit-btn:hover { background-color: #2980b9; }
+
+        @media (max-width: 900px) {
+            main { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div id="color-palette" style="display: none;"
+    data-quality-good="#2ecc71"
+    data-quality-avg="#f39c12"
+    data-quality-poor="#e74c3c"
+    data-text-secondary="#a0b0c0"
+    data-bg-card="#172a3a">
+</div>
+
+<div class="container">
+    <header>
+        <div class="logo"><i class="fa-solid fa-moon"></i><span>SleepWell</span></div>
+    </header>
+
+    <main>
+        <section class="results-column">
+            <div class="card">
+                <h2>Sleep Quality Prediction</h2>
+                {% if prediction_data.quality_label %}
+                    <div class="gauge-container"><canvas id="qualityGauge"></canvas></div>
+                {% else %}
+                    <div class="placeholder"><p>Your results will be shown here.</p></div>
+                {% endif %}
+            </div>
+            
+            <div class="card" style="margin-top: 2rem;">
+                <h2>Personalized Suggestions</h2>
+                {% if prediction_data.quality_label and prediction_data.suggestions %}
+                    <ul class="suggestions-list">
+                        {% for s in prediction_data.suggestions %}
+                            <li class="suggestion-item {{ s.type }}"><i class="{{ s.icon }}"></i><span>{{ s.text }}</span></li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <div class="placeholder"><p>Your suggestions will appear here.</p></div>
+                {% endif %}
+            </div>
+        </section>
+
+        <section class="form-column">
+            <div class="card">
+                <h2>Predict Your Sleep Quality</h2>
+                <form method="POST" class="form-grid" action="/predict">
+                    {% for col in columns %}
+                        <div class="form-group">
+                            <label class="form-label" for="form-input-{{ loop.index }}">{{ col.replace('_', ' ').title() }}</label>
+                            {% if col in categorical_cols %}
+                                <select class="form-control" name="{{ col }}" id="form-input-{{ loop.index }}" required>
+                                    {% for option in categorical_cols[col] %}
+                                    <option value="{{ option }}" {% if user_inputs.get(col) == option %}selected{% endif %}>{{ option }}</option>
+                                    {% endfor %}
+                                </select>
+                            {% else %}
+                                <input type="number" step="any" class="form-control" name="{{ col }}" id="form-input-{{ loop.index }}" value="{{ user_inputs.get(col, '') }}" required>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                    <button type="submit" class="submit-btn">Analyze & Predict</button>
+                </form>
+            </div>
+        </section>
+    </main>
+</div>
+
+{% if prediction_data.quality_label %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const gaugeCtx = document.getElementById('qualityGauge');
+        if (!gaugeCtx) return;
+
+        const palette = document.getElementById('color-palette').dataset;
+        Chart.register(ChartDataLabels);
+        
+        const visualConfig = [
+            { label: 'Good',    color: palette.qualityGood },
+            { label: 'Average', color: palette.qualityAvg  },
+            { label: 'Poor',    color: palette.qualityPoor } 
+        ];
+        
+        const dataConfig = [
+            { label: 'Average', color: palette.qualityAvg },
+            { label: 'Good',    color: palette.qualityGood },
+            { label: 'Poor',    color: palette.qualityPoor }
+        ];
+
+        const predictionValue = parseInt('{{ prediction_data.prediction_value }}', 10);
+        const result = dataConfig[predictionValue]; 
+        
+        const valueToPositionMap = { 1: 0, 0: 1, 2: 2 };
+        const needlePosition = valueToPositionMap[predictionValue];
+
+        new Chart(gaugeCtx, {
+            type: 'doughnut',
+            data: {
+                labels: visualConfig.map(c => c.label),
+                datasets: [{
+                    data: [1, 1, 1],
+                    backgroundColor: visualConfig.map(c => c.color),
+                    borderColor: palette.bgCard,
+                    borderWidth: 5,
+                }]
+            },
+            options: {
+                responsive: true,
+                aspectRatio: 2,
+                plugins: {
+                    legend: { display: false },
+                    tooltip: { enabled: false },
+                    datalabels: {
+                        // ✅ FIX: This moves the labels inside the colored arcs
+                        formatter: (value, context) => context.chart.data.labels[context.dataIndex],
+                        color: '#FFFFFF',      // White color for high contrast
+                        anchor: 'center',       // Position in the middle of the arc
+                        align: 'center',        //
+                        offset: 0,              // No offset needed
+                        font: {
+                            weight: 'bold',
+                            size: 14
+                        }
+                    }
+                },
+                rotation: -90,
+                circumference: 180,
+                cutout: '70%',
+            },
+            plugins: [{
+                id: 'gaugeNeedle',
+                afterDatasetDraw(chart) {
+                    const { ctx } = chart;
+                    ctx.save();
+                    const xCenter = chart.getDatasetMeta(0).data[0].x;
+                    const yCenter = chart.getDatasetMeta(0).data[0].y;
+                    const outerRadius = chart.getDatasetMeta(0).data[0].outerRadius;
+                    
+                    const total = chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                    const angle = Math.PI + (1 / total * (needlePosition + 0.5) * Math.PI);
+
+                    // Needle Drawing, Dot, and Result Text remain the same
+                    ctx.beginPath();
+                    ctx.strokeStyle = result.color;
+                    ctx.lineWidth = 4;
+                    ctx.moveTo(xCenter, yCenter);
+                    ctx.lineTo(xCenter + (outerRadius + 10) * Math.cos(angle), yCenter + (outerRadius + 10) * Math.sin(angle));
+                    ctx.stroke();
+
+                    ctx.beginPath();
+                    ctx.arc(xCenter, yCenter, 10, 0, 2 * Math.PI);
+                    ctx.fillStyle = result.color;
+                    ctx.fill();
+                    
+                    ctx.font = 'bold 2rem Inter';
+                    ctx.fillStyle = result.color;
+                    ctx.textAlign = 'center';
+                    ctx.fillText(result.label, xCenter, yCenter + 45);
+
+                    ctx.font = '500 1rem Inter';
+                    ctx.fillStyle = palette.textSecondary;
+                    ctx.fillText('Sleep Quality', xCenter, yCenter + 70);
+                    ctx.restore();
+                }
+            }]
+        });
+    });
+</script>
+{% endif %}
+</body>
+</html>
