@@ -3,7 +3,9 @@
 This project predicts an individual's sleep quality (Poor / Average / Good) based on lifestyle, sleep habits, and physiological data using Machine Learning and Deep Learning models.
 It includes an interactive Flask web interface where users can input their details and get personalized suggestions to improve their sleep.
 Project Overview
+
 The project uses:
+
 •	Random Forest (RF) — Machine Learning model for feature importance and baseline accuracy.
 •	Artificial Neural Network (ANN) — Deep Learning model for capturing nonlinear sleep behavior patterns.
 •	A Flask web app for user interaction and prediction visualization.
@@ -84,5 +86,6 @@ at the top of app.py.
 Name: Prarthana S
 Project Title: Sleep Quality Prediction using Machine Learning and Deep Learning
 Tools Used: Python, Flask, TensorFlow, Scikit-learn, Pandas
+
 
 
