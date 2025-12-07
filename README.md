@@ -41,7 +41,7 @@ pip install matplotlib seaborn
 
 1.	Download the folder from Google Drive to your local computer.
 
-Ensure all files (app.py, dataset, templates folder) are in the same directory.
+  Ensure all files (app.py, dataset, templates folder) are in the same directory.
 
 2.	Open Command Prompt / Terminal inside that folder.
    
@@ -50,15 +50,15 @@ Ensure all files (app.py, dataset, templates folder) are in the same directory.
 	python app.py
 ```
 
-4.	 Wait for training to complete.
+4.	Wait for training to complete.
    
-You’ll see accuracies printed like:
+  You’ll see accuracies printed like:
 
-Random Forest Accuracy: 0.91
+  Random Forest Accuracy: 0.91
 
-ANN Accuracy: 0.92
+  ANN Accuracy: 0.92
 
-Selected Model: ANN (best overall performance)
+  Selected Model: ANN (best overall performance)
 
 5.	Once complete, open the URL shown in the terminal:
 ``` bash
@@ -67,7 +67,7 @@ Selected Model: ANN (best overall performance)
 
 6.	 The web app will open
    
-enter your details, and it will predict your sleep quality and show personalized suggestions.
+  enter your details, and it will predict your sleep quality and show personalized suggestions.
 
 ## Model Training Details
 
@@ -79,9 +79,9 @@ enter your details, and it will predict your sleep quality and show personalized
 
 •	Models:
 
-o	Random Forest (RF) — Accuracy: ~91%
+   o	Random Forest (RF) — Accuracy: ~91%
 
-o	Artificial Neural Network (ANN) — Accuracy: ~92–93%
+   o	Artificial Neural Network (ANN) — Accuracy: ~92–93%
 
 •	The app automatically selects the model with the best accuracy.
 
@@ -127,6 +127,7 @@ Name: Prarthana S
 Project Title: Sleep Quality Prediction using Machine Learning and Deep Learning
 
 Tools Used: Python, Flask, TensorFlow, Scikit-learn, Pandas
+
 
 
 
