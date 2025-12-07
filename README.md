@@ -59,14 +59,7 @@ pip install matplotlib seaborn
     ANN Accuracy: 0.92
     Selected Model: ANN (best overall performance)
     ```
-
-5.  **Launch the Web App**
-    Once training is complete, open the URL shown in the terminal:
-    http://127.0.0.1:5000
-
-6.  **Get Predictions**
-    The web app will open. Enter your details, and it will predict your sleep quality and show personalized suggestions.
-
+    
 ## Model Training Details
 
 •	Dataset Used: Sleep_Efficiency.csv
@@ -120,11 +113,13 @@ at the top of app.py.
 
 ## Project Contributors
 
-Name: Prarthana S
+| Name | Role | Contact |
+| :--- | :--- | :--- |
+| **Prarthana S** | Lead Developer | [GitHub Profile](#) |
 
-Project Title: Sleep Quality Prediction using Machine Learning and Deep Learning
+**Project Title:** Sleep Quality Prediction using Machine Learning and Deep Learning
+**Tools Used:** Python, Flask, TensorFlow, Scikit-learn, Pandas
 
-Tools Used: Python, Flask, TensorFlow, Scikit-learn, Pandas
 
 
 
