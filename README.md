@@ -40,6 +40,7 @@ pip install matplotlib seaborn
 ## Steps to Run the Project
 
 1.  **Download the project**
+
     Download the folder from Google Drive to your local computer.
     > **Note:** Ensure all files (`app.py`, `dataset`, `templates` folder) are in the same directory.
 
@@ -120,6 +121,7 @@ at the top of app.py.
 **Project Title:** Sleep Quality Prediction using Machine Learning and Deep Learning
 
 **Tools Used:** Python, Flask, TensorFlow, Scikit-learn, Pandas
+
 
 
 
