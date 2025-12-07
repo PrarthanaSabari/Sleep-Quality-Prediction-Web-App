@@ -113,12 +113,14 @@ at the top of app.py.
 
 ## Project Contributors
 
-| Name | Role | Contact |
-| :--- | :--- | :--- |
-| **Prarthana S** | Lead Developer | [GitHub Profile](#) |
+| Name | Role |
+| :--- | :--- |
+| **Prarthana S** | Lead Developer | 
 
 **Project Title:** Sleep Quality Prediction using Machine Learning and Deep Learning
+
 **Tools Used:** Python, Flask, TensorFlow, Scikit-learn, Pandas
+
 
 
 
