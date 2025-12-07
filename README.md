@@ -77,9 +77,9 @@ pip install matplotlib seaborn
 
 •	Models:
 
-   o	Random Forest (RF) — Accuracy: ~91%
+    o	Random Forest (RF) — Accuracy: ~91%
 
-   o	Artificial Neural Network (ANN) — Accuracy: ~92–93%
+    o	Artificial Neural Network (ANN) — Accuracy: ~92–93%
 
 •	The app automatically selects the model with the best accuracy.
 
@@ -125,6 +125,7 @@ Name: Prarthana S
 Project Title: Sleep Quality Prediction using Machine Learning and Deep Learning
 
 Tools Used: Python, Flask, TensorFlow, Scikit-learn, Pandas
+
 
 
 
